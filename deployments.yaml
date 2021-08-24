@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: osrm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: osrm
+  template:
+    metadata:
+      labels:
+        app: osrm
+    spec:
+      containers:
+        - name: osrm-contract
+          image: osrm/osrm-backend:v5.24.0
+          command: ["osrm-routed"]
+          args: ["--port", "5000", "--algorithm", "ch", "/data/great-britain-latest.osrm"]
+          volumeMounts:
+            - mountPath: /data
+              name: maps
+      volumes:
+        - name: maps
+          hostPath:
+          # directory location on host
+            path: "/Users/localadmin/OneDrive - Royal Mail Group Ltd/Projects/RM/VROOM/vehicle-route-optimiser/data/external/osm/contract"
+ 
