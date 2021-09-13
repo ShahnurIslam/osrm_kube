@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: osrm
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: osrm
@@ -16,7 +15,7 @@ spec:
         - name: osrm-contract
           image: osrm/osrm-backend:v5.24.0
           command: ["osrm-routed"]
-          args: ["--port", "5000", "--algorithm", "ch", "/data/great-britain-latest.osrm"]
+          args: ["--port", "5000", "--algorithm", "ch", "/data/great-britain-latest.osrm","--max-table-size", "2500"]
           volumeMounts:
             - mountPath: /data
               name: maps
